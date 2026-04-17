@@ -1,0 +1,23 @@
+ name: Run Trading Bot Every Hour
+
+  on:
+    schedule:
+      - cron: '0 * * * *'  # Run every hour
+
+  jobs:
+    trade:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: '18'
+        - run: npm install
+        - run: node bot.js
+          env:
+            BINANCE_API_KEY: ${{ secrets.BINANCE_API_KEY }}
+            BINANCE_SECRET_KEY: ${{ secrets.BINANCE_SECRET_KEY }}
+            PORTFOLIO_VALUE_USD: 500
+            MAX_TRADE_SIZE_USD: 99
+            MAX_TRADES_PER_DAY: 67
+            PAPER_TRADING: true
